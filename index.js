@@ -3,15 +3,19 @@ const mongoose = require("mongoose");
 const app = express();
 //Dot env is used to store and access authentic data in .env file 
 const dotenv = require("dotenv");
+const cors = require("cors");
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/user");
 const ProductRoute = require("./routes/product");
-
+const CartRoute = require("./routes/cart");
+const OrderRoute = require("./routes/order");
+const stripeRoute = require("./routes/stripe");
+const bodyparser = require("body-parser");
 
 dotenv.config();
 
 app.listen(process.env.PORT || 5000, ()=>{
-    console.log("Backend server is running");
+    console.log("Backend server is running at port 5000");
 })
 
 // Rest api end points
@@ -21,13 +25,22 @@ app.listen(process.env.PORT || 5000, ()=>{
 // app.get("/api/test", ()=>{
 //     console.log("test successful");
 // })
+app.use(bodyparser.urlencoded({extended:false}))
+app.use(bodyparser.json())
 
+app.set('view engine', 'ejs');
+//For cors policy error.
+app.use(cors());
 //Here whenever we hit this user route "/api/user" our application will use userRoute.
 // To pass any json file ->
 app.use(express.json());
-app.use("/api/auth", authRoute);
+app.use("/api/auth", authRoute); 
 app.use("/api/users", userRoute);
 app.use("/api/products", ProductRoute);
+app.use("/api/cart", CartRoute);
+app.use("/api/orders", OrderRoute);
+app.use("/api/checkout", stripeRoute);
+
  
 //Connecting to mongo server
 mongoose.connect(process.env.MONGO_URL
