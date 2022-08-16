@@ -10,7 +10,7 @@ const ProductRoute = require("./routes/product");
 const CartRoute = require("./routes/cart");
 const OrderRoute = require("./routes/order");
 const stripeRoute = require("./routes/stripe");
-const bodyparser = require("body-parser");
+
 
 dotenv.config();
 
@@ -25,10 +25,7 @@ app.listen(process.env.PORT || 5000, ()=>{
 // app.get("/api/test", ()=>{
 //     console.log("test successful");
 // })
-app.use(bodyparser.urlencoded({extended:false}))
-app.use(bodyparser.json())
 
-app.set('view engine', 'ejs');
 //For cors policy error.
 app.use(cors());
 //Here whenever we hit this user route "/api/user" our application will use userRoute.
