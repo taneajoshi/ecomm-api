@@ -2,7 +2,7 @@ const router = require("express").Router();
 const Product = require("../Modles/Product");
 const {verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = require("./verifyToken");
 
-//Create User
+//Create Product
 router.post("/", verifyTokenAndAdmin , async (req, res) => {
     const newProduct = new Product(req.body);
 
